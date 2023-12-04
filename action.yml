@@ -1,0 +1,143 @@
+name: upgrade
+inputs:
+  pkp-application:
+    required: true
+  pkp-repository:
+    required: true
+  pkp-branch:
+    required: true
+
+
+runs:
+  using: "composite"
+  
+  steps:
+    - name: Install postgres server
+      if: ${{matrix.dbs == 'pgsql'}}
+      run: |
+        env
+        sudo apt install postgresql postgresql-contrib
+        sudo dpkg-reconfigure locales
+        sudo sed -i -E 's\peer|scram-sha-256\trust\g' /etc/postgresql/14/main/pg_hba.conf
+      shel: Install mysql server
+      if: ${{matrix.dbs == 'mysql'}}
+      run: |
+        sudo apt install -q -y mysql-server mysql-client
+        sudo service mysql start
+        sudo mysqladmin -u root -p'root' password ''
+      shell: bash
+
+    - name: Install mariadb server
+      if: ${{matrix.dbs == 'mariadb'}}
+      uses: ankane/setup-mariadb@v1
+      with:
+        mariadb-version: "10.11"
+
+    - name: Install PKP ${{inputs.pkp-application}}
+      run: |
+        git clone -b ${{inputs.pkp-branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.pkp-repository}}/${{inputs.pkp-application}} ~/${{inputs.pkp-application}}
+        cd ~/${{inputs.pkp-application}}
+        git submodule update --init --recursive
+      env:
+        APPLICATION: '${{ inputs.pkp-application || github.event.repository.name }}'
+      shell: bash
+
+    - name: Install php environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{matrix.php-versions}}
+        extensions: bcmath, bz2, common, cli, curl, fpm, gd, intl, mbstring, mysql,mysqlnd, mysqli, opcache, pdo_mysql, pgsql, json,soap, xml, zip
+        coverage: xdebug
+      env:
+        update: true
+
+    - name: Install composer dependencies
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        lib/pkp/tools/travis/install-composer-dependencies.sh
+        npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
+      shell: bash
+      env:
+        APPLICATION: '${{ inputs.pkp-application || github.event.repository.name }}'l: bash
+
+    - name: Install mysql server
+      if: ${{matrix.dbs == 'mysql'}}
+      run: |
+        sudo apt install -q -y mysql-server mysql-client
+        sudo service mysql start
+        sudo mysqladmin -u root -p'root' password ''
+      shell: bash
+
+    - name: Install mariadb server
+      if: ${{matrix.dbs == 'mariadb'}}
+      uses: ankane/setup-mariadb@v1
+      with:
+        mariadb-version: "10.11"
+
+    - name: Install PKP ${{inputs.pkp-application}}
+      run: |
+        git clone -b ${{inputs.pkp-branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.pkp-repository}}/${{inputs.pkp-application}} ~/${{inputs.pkp-application}}
+        cd ~/${{inputs.pkp-application}}
+        git submodule update --init --recursive
+      env:
+        APPLICATION: '${{ inputs.pkp-application || github.event.repository.name }}'
+      shell: bash
+
+    - name: Install php environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{matrix.php-versions}}
+        extensions: bcmath, bz2, common, cli, curl, fpm, gd, intl, mbstring, mysql,mysqlnd, mysqli, opcache, pdo_mysql, pgsql, json,soap, xml, zip
+        coverage: xdebug
+      env:
+        update: true
+
+    - name: Install composer dependencies
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        lib/pkp/tools/travis/install-composer-dependencies.sh
+        npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
+      shell: bash
+      env:
+        APPLICATION: '${{ inputs.pkp-application || github.event.repository.name }}'
+
+
+    - name: Create folders
+      run: |
+        mkdir --parents ${FILESDIR}
+        mkdir --parents public
+        mkdir -p $HOME/bin
+
+    - name: upgrade from ${{matrix.test-upgrade}}  for  ${{matrix.dbs}}
+      if: ${{(matrix.php-versions == '8.2')  && (matrix.test-upgrade =='stable-3_4-0')}}
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        echo
+        git clone https://github.com/pkp/datasets
+        cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
+        cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
+        cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
+        ./datasets/tools/dbclient.sh < datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/database.sql
+        php tools/upgrade.php check
+        php tools/upgrade.php upgrade
+      env:
+        DATASET_BRANCH: ${{matrix.test-upgrade}}
+        TEST: ${{matrix.dbs}}
+
+
+    - name: upgrade from ${{matrix.test-upgrade}}  for  ${{matrix.dbs}}
+      if: matrix.php-versions == '8.1'  && contains('["stable-3_2_0","stable-3_2_1","stable-3_3_0"]', matrix.test-upgrade)
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        git clone https://github.com/pkp/datasets
+        cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
+        cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
+        cp datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
+        patch -p1 < datasets/upgrade/3_4_0-add-email-config.diff
+        patch -p1 < datasets/upgrade/3_4_0-update-locale.diff
+        ./datasets/tools/dbclient.sh < datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/database.sql
+        php tools/upgrade.php check
+        php tools/upgrade.php upgrade
+      env:
+        DATASET_BRANCH: ${{matrix.test-upgrade}}
+        TEST: ${{matrix.dbs}}

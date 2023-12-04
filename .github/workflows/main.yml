@@ -1,0 +1,33 @@
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: (PHP=${{matrix.php-versions}}; DB=${{matrix.dbs}})
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [ '8.1','8.2' ]
+        dbs: [ 'pgsql', 'mysql','mariadb']
+        test-upgrade: [ 'stable-3_4_0','stable-3_3_0','stable-3_2_1','stable-3_2_0' ]
+    env:
+      BASEURL: http://localhost
+      DBHOST: 127.0.0.1
+      DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+      DBNAME: ojs-ci
+      DBUSERNAME: ojs-ci
+      DBPASSWORD: ojs-ci
+      FILESDIR: files
+      DATABASEDUMP: database.sql.gz
+      FILESDUMP: files.tar.gz
+      TEST: ${{matrix.dbs}}
+      APPLICATION: ojs
+    
+    steps:
+        - uses: actions/checkout@v4
+        
+        - uses: xmlFlow/upgrade-action@v1
+          with:
+            pkp-application: 'ojs'
+            pkp-repository: 'withanage'
+            pkp-branch: 'issue#9214'
