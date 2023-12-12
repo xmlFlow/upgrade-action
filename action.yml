@@ -88,8 +88,8 @@ runs:
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets
-        
-        for DATASET_BRANCH in ${DATASET_BRANCHES//,/}
+        DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
+        for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
         do
          cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
           cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
@@ -114,6 +114,6 @@ runs:
         DBUSERNAME: ${{inputs.application}}-ci
         DBPASSWORD: ${{inputs.application}}-ci
         APPLICATION: ${{inputs.application}}
-        DATASET_BRANCHES: '"stable-3_4_0","stable-3_3_0","stable-3_2_1","stable-3_2_0"'
+
 
 
