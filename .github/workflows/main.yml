@@ -12,7 +12,7 @@ jobs:
       
     name: upgrade
     steps:
-      - uses: withanage/upgrade-action@v1
+      - uses: xmlFlow/upgrade-action@v1
         with:
           application:  ${{matrix.application}}
           repository: 'pkp'
