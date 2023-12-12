@@ -103,7 +103,7 @@ runs:
           php tools/upgrade.php upgrade
           rm -rf files
           rm -rf public
-        done
+        done;
 
       shell: bash
       env:
