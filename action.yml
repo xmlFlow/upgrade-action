@@ -91,7 +91,8 @@ runs:
         
         for DATASET_BRANCH in ${DATASET_BRANCHES}
         do
-  
+         ech "${DATASET_BRANCH}"
+         ech ${DATASET_BRANCH}
           cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
           cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
           cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
