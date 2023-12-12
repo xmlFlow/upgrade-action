@@ -89,7 +89,7 @@ runs:
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets
         
-        for DATASET_BRANCH in ${DATASET_BRANCHES}
+        for DATASET_BRANCH in ${DATASET_BRANCHES//,/}
         do
          cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
           cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
