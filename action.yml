@@ -91,9 +91,7 @@ runs:
         
         for DATASET_BRANCH in ${DATASET_BRANCHES}
         do
-         ech "${DATASET_BRANCH}"
-         ech ${DATASET_BRANCH}
-          cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
+         cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
           cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
           cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
           if [[ "${DATASET_BRANCH}" =~ ^(stable-3_2_0|stable-3_2_1|stable-3_3_0)$ ]]; then
@@ -116,5 +114,5 @@ runs:
         DBUSERNAME: ${{inputs.application}}-ci
         DBPASSWORD: ${{inputs.application}}-ci
         APPLICATION: ${{inputs.application}}
-        DATASET_BRANCHES: '"stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0"'
+        DATASET_BRANCHES: '"stable-3_4_0","stable-3_3_0","stable-3_2_1","stable-3_2_0"'
  
