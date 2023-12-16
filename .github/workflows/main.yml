@@ -17,4 +17,3 @@ jobs:
           application:  ${{matrix.application}}
           repository: 'pkp'
           branch: 'main' 
-  
