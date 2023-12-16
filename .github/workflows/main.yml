@@ -15,5 +15,5 @@ jobs:
       - uses: xmlFlow/upgrade-action@v1
         with:
           application:  ${{matrix.application}}
-          repository: 'pkp'
-          branch: 'main' 
+          repository: 'withanage'
+          branch: 'issue#9214'
