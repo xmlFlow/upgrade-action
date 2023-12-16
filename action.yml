@@ -83,6 +83,7 @@ runs:
         DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
         for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
         do
+         source ./lib/pkp/tools/travis/prepare-tests.sh
          mkdir -p files
          mkdir -p public
          cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
