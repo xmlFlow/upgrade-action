@@ -64,7 +64,7 @@ runs:
     - name: Prepare test environment
       run: |
         cd ~/${{inputs.application}}
-         git clone https://github.com/withanage/datasets
+         git clone https://github.com/pkp/datasets
       shell: bash
       env:
         APPLICATION: '${{inputs.application}}'
@@ -78,6 +78,7 @@ runs:
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
+        sudo mysql -u root -p  -e "DRO DATABASE IF EXISTS \`${DBNAME}\`";
         ./lib/pkp/tools/travis/prepare-tests.sh
         
         DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
@@ -92,6 +93,7 @@ runs:
              patch -p1 < datasets/upgrade/3_4_0-add-email-config.diff
              patch -p1 < datasets/upgrade/3_4_0-update-locale.diff
          fi
+        
          ./datasets/tools/dbclient.sh < datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/database.sql
          php tools/upgrade.php check
          php tools/upgrade.php upgrade
