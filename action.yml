@@ -98,7 +98,7 @@ runs:
           rm -rf files
           rm -rf public
           sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
-          done
+        done
 
       shell: bash
       env:
