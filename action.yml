@@ -82,7 +82,7 @@ runs:
         then
           sudo mysql -u root -p  -e "DROP DATABASE IF  \`${DBNAME}\`";
           echo ${DBNAME};
-        if
+        fi
           ./lib/pkp/tools/travis/prepare-tests.sh
         
         DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
