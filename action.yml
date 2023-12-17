@@ -78,8 +78,7 @@ runs:
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
-         if  mysql  -u root -p  -e "use ${DBNAME}" 
-        then
+        if  [[ mysql  -u root -p  -e "use ${DBNAME}" ]];  then
           sudo mysql -u root -p  -e "DROP DATABASE IF  \`${DBNAME}\`";
           echo ${DBNAME};
         fi
