@@ -77,11 +77,8 @@ runs:
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
-        cd ~/${{inputs.application}}
-        if  [["mysql  -u root -p  -e 'use ${DBNAME}'" ]];  then
-          sudo mysql -u root -p  -e "DROP DATABASE IF  \`${DBNAME}\`";
-          echo ${DBNAME};
-        fi
+        
+         
           ./lib/pkp/tools/travis/prepare-tests.sh
         
         DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
@@ -102,6 +99,7 @@ runs:
          php tools/upgrade.php upgrade
          rm -rf files
         rm -rf public
+        sudo mysql -u root -p  -e "DROP DATABASE IF  \`${DBNAME}\`";
         done
 
       shell: bash
