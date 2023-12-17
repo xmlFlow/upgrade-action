@@ -78,7 +78,7 @@ runs:
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
-        sudo mysql -u root -p  -e "DRO DATABASE IF EXISTS \`${DBNAME}\`";
+        sudo mysql -u root -p  -e "DROP DATABASE IF EXISTS \`${DBNAME}\`";
         ./lib/pkp/tools/travis/prepare-tests.sh
         
         DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
