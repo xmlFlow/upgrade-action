@@ -4,9 +4,9 @@ jobs:
   upgrade:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        application: ['ojs','omp','ops']
+        application: ['omp','ojs','ops']
         database: [ 'pgsql','mysql']
         php-version: [ '8.1' ]
       
