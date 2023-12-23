@@ -10,9 +10,87 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v1
-
-    - name: List all directories
+    - uses: actions/checkout@v4
+    - name: Install postgres server
+      if: ${{matrix.database == 'pgsql'}}
       run: |
-        ls -al
+        sudo apt install postgresql-14 postgresql-contrib
+        sudo dpkg-reconfigure locales
+        sudo sed -i -E 's\peer|scram-sha-256\trust\g' /etc/postgresql/14/main/pg_hba.conf
       shell: bash
+    - name: Install mysql server
+      if: ${{matrix.database == 'mysql'}}
+      run: |
+        sudo apt install -q -y mysql-server mysql-client
+        sudo service mysql start
+        sudo mysqladmin -u root -p'root' password ''
+      shell: bash
+    - name: Install mariadb server
+      if: ${{matrix.database == 'mariadb'}}
+      uses: ankane/setup-mariadb@v1
+      with:
+        mariadb-version: "10.11"
+    
+    - name: Install php environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{matrix.php-version}}
+        extensions: bcmath, bz2, curl, gd, intl, mbstring, mysql,mysqlnd, mysqli, opcache, pdo_mysql, pgsql, json,soap, xml, zip
+        coverage: xdebug
+      env:
+        update: true
+    
+    - name: Install PKP ${{inputs.application}}
+      run: |
+        git clone -b ${{inputs.branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.repository}}/${{inputs.application}} ~/${{inputs.application}}
+        cd ~/${{inputs.application}}
+        git submodule update --init --recursive
+      shell: bash
+
+  
+    - name: Install composer dependencies
+      run: |
+        cd ~/${{inputs.application}}
+        lib/pkp/tools/travis/install-composer-dependencies.sh
+      shell: bash
+
+    
+    - name: Install node dependencies
+      run: |
+        cd ~/${{inputs.application}}
+        npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
+      shell: bash
+
+
+    - name: Prepare test environment
+      run: |
+        cd ~/${{inputs.application}}
+         git clone https://github.com/pkp/datasets
+      shell: bash
+      env:
+        APPLICATION: '${{inputs.application}}'
+        DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        DBHOST: 127.0.0.1
+        DBNAME: ${{inputs.application}}-ci
+        DBUSERNAME: ${{inputs.application}}-ci
+        DBPASSWORD: ${{inputs.application}}-ci
+        TEST: ${{matrix.database}}
+
+    - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
+      run: |
+        cd ~/${{inputs.application}} 
+        ./lib/pkp/tools/travis/prepare-tests.sh
+        cd ${{ github.workspace }}
+        .github/actions/upgrade.sh
+      shell: bash
+      env:
+        TEST: ${{matrix.database}}
+        DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        DBHOST: 127.0.0.1
+        DBNAME: ${{inputs.application}}-ci
+        DBUSERNAME: ${{inputs.application}}-ci
+        DBPASSWORD: ${{inputs.application}}-ci
+        APPLICATION: ${{inputs.application}}
+
+
+
