@@ -48,15 +48,10 @@ runs:
       shell: bash
 
   
-    - name: Install composer dependencies
-      run: |
-        ${{ github.workspace }}/install-composer-dependencies.sh
-      shell: bash
-
-    
-    - name: Install node dependencies
+    - name: Install  dependencies
       run: |
         cd ~/${{inputs.application}}
+        ${{ github.workspace }}/install-composer-dependencies.sh
         npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
       shell: bash
 
