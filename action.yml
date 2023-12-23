@@ -50,8 +50,7 @@ runs:
   
     - name: Install composer dependencies
       run: |
-        cd ~/${{inputs.application}}
-        lib/pkp/tools/travis/install-composer-dependencies.sh
+        ${{ github.workspace }}/install-composer-dependencies.sh
       shell: bash
 
     
