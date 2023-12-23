@@ -80,8 +80,7 @@ runs:
       run: |
         cd ~/${{inputs.application}} 
         ./lib/pkp/tools/travis/prepare-tests.sh
-        cd ${{ github.workspace }}
-        source .github/actions/upgrade.sh
+        source ${{ github.workspace }}.github/actions/upgrade.sh
       shell: bash
       env:
         TEST: ${{matrix.database}}
