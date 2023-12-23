@@ -42,7 +42,7 @@ runs:
     
     - name: Install PKP ${{inputs.application}}
       run: |
-        git clone -b ${{inputs.branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.repository}}/${{inputs.application}} ~/${{inputs.application}}
+        git clone -b ${{inputs.branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.repository}}/${{inputs.application}} ~/${{inputs.application}} --depth 1
         cd ~/${{inputs.application}}
         git submodule update --init --recursive
       shell: bash
@@ -65,7 +65,7 @@ runs:
     - name: Prepare test environment
       run: |
         cd ~/${{inputs.application}}
-        git clone https://github.com/pkp/datasets
+        git clone https://github.com/pkp/datasets --depth 1
       shell: bash
       env:
         APPLICATION: '${{inputs.application}}'
