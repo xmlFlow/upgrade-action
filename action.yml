@@ -78,9 +78,8 @@ runs:
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
-        cd ~/${{inputs.application}} 
-        ./lib/pkp/tools/travis/prepare-tests.sh
-        source ${{ github.workspace }}.github/actions/upgrade.sh
+        ~/${{inputs.application}} ./lib/pkp/tools/travis/prepare-tests.sh
+        ${{ github.workspace }}.github/actions/upgrade.sh
       shell: bash
       env:
         TEST: ${{matrix.database}}
