@@ -11,6 +11,11 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+    - name: list dir
+      run: |
+        ls -al
+      shell: bash
+
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
