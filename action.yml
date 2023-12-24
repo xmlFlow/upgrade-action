@@ -11,15 +11,6 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
-
-    - name: pwd
-      run: |
-        pwd  ${{github.workplace}}
-      shell: bash
-    - name: list dir
-      run: |
-        ls -alR ${{github.workplace}}
-      shell: bash
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
@@ -82,7 +73,7 @@ runs:
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
-        ${{ github.workspace }}/prepare-tests.sh
+        ${{ github.workspace }}/.github/actions/prepare-tests.sh
         ${{ github.workspace }}/.github/actions/upgrade-application.sh
       shell: bash
       env:
