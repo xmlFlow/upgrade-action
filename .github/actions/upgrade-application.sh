@@ -1,5 +1,5 @@
 #!/bin/bash
-DATASET_BRANCHES=("stable-3_3_0")
+DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0")
 # DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
 for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
 do
