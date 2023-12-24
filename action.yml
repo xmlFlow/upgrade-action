@@ -14,7 +14,7 @@ runs:
 
     - name: list dir
       run: |
-        ls  ${{github.workplace}}
+        pwd  ${{github.workplace}}
       shell: bash
 
     - name: Install postgres server
