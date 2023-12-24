@@ -16,5 +16,5 @@ php tools/upgrade.php upgrade
 rm -rf files
 rm -rf public
 sudo mysql -u root -e "DROP DATABASE IF EXISTS \`${DBNAME}\` ";
-sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`";
+sudo mysql -u root -e "CREATE USER \`${DBUSERNAME}\`@${DBHOST}";
 
