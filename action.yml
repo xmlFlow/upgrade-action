@@ -12,11 +12,14 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    - name: list dir
+    - name: pws
       run: |
         pwd  ${{github.workplace}}
       shell: bash
-
+    - name: list dir
+      run: |
+        ls ${{github.workplace}}
+      shell: bash
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
