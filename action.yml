@@ -11,9 +11,10 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+
     - name: list dir
       run: |
-        ls -al
+        ls  ${{github.workplace}}
       shell: bash
 
     - name: Install postgres server
