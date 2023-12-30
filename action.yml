@@ -17,6 +17,7 @@ runs:
         sudo apt install postgresql-14 postgresql-contrib
         sudo dpkg-reconfigure locales
         sudo sed -i -E 's\peer|scram-sha-256\trust\g' /etc/postgresql/14/main/pg_hba.conf
+        echo "Install postgres server :heavy_check_mark: " >> $GITHUB_STEP_SUMMARY
       shell: bash
 
     - name: Install mysql server
