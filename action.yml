@@ -85,7 +85,7 @@ runs:
         do
           ${{ github.workspace }}/.github/actions/prepare-tests.sh
           ${{ github.workspace }}/.github/actions/upgrade-application.sh
-          echo ":heavy_check_mark: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
+          echo ":heavy_check_mark: Upgrade from ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
 
         done
       shell: bash
