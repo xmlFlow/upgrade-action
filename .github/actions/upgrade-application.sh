@@ -13,8 +13,8 @@ fi
 ./datasets/tools/dbclient.sh < datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/database.sql
 php tools/upgrade.php check
 php tools/upgrade.php upgrade
-#rm -rf files
-#rm -rf public
+rm -rf files
+rm -rf public
 sudo mysql -u root -e "DROP DATABASE IF EXISTS \`${DBNAME}\` ";
 sudo mysql -u root -e "CREATE USER \`${DBUSERNAME}\`@${DBHOST}";
 
