@@ -13,8 +13,10 @@ runs:
     - name: Set envionment variables
       run: |
         echo "DBUSERNAME=${{inputs.application}}-ci" >> "$GITHUB_OUTPUT"
+      shell: bash
 
     - uses: actions/checkout@v4
+
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
