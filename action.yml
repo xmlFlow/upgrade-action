@@ -71,15 +71,7 @@ runs:
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
       shell: bash
-      env:
-        APPLICATION: '${{inputs.application}}'
-        DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-        DBHOST: 127.0.0.1
-        DBNAME: ${{inputs.application}}-ci
-        DBUSERNAME: ${{inputs.application}}-ci
-        DBPASSWORD: ${{inputs.application}}-ci
-        TEST: ${{matrix.database}}
-
+    
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
