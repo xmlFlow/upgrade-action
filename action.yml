@@ -30,7 +30,6 @@ runs:
         sudo apt install postgresql-14 postgresql-contrib
         sudo dpkg-reconfigure locales
         sudo sed -i -E 's\peer|scram-sha-256\trust\g' /etc/postgresql/14/main/pg_hba.conf
-        echo ":heavy_check_mark: Install postgres server " >> $GITHUB_STEP_SUMMARY
       shell: bash
 
     - name: Install mysql server
@@ -39,7 +38,6 @@ runs:
         sudo apt install -q -y mysql-server mysql-client
         sudo service mysql start
         sudo mysqladmin -u root -p'root' password ''
-        echo ":heavy_check_mark: Install mysl server  " >> $GITHUB_STEP_SUMMARY
       shell: bash
     - name: Install mariadb server
       if: ${{matrix.database == 'mariadb'}}
@@ -61,7 +59,6 @@ runs:
         git clone -b ${{inputs.branch || github.head_ref || github.ref_name }} https://github.com/${{inputs.repository}}/${{inputs.application}} ~/${{inputs.application}} --depth 1
         cd ~/${{inputs.application}}
         git submodule update --init --recursive
-        echo ":heavy_check_mark: Install  ${{inputs.application}}" >> $GITHUB_STEP_SUMMARY
       shell: bash
 
   
@@ -70,7 +67,6 @@ runs:
         cd ~/${{inputs.application}}
         ${{ github.workspace }}/.github/actions/install-composer-dependencies.sh
         npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
-        echo ":heavy_check_mark: Install dependencies" >> $GITHUB_STEP_SUMMARY
       shell: bash
 
 
@@ -78,7 +74,6 @@ runs:
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
-        echo ":heavy_check_mark: Download datasets" >> $GITHUB_STEP_SUMMARY
       shell: bash
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
@@ -90,8 +85,9 @@ runs:
         do
           ${{ github.workspace }}/.github/actions/prepare-tests.sh
           ${{ github.workspace }}/.github/actions/upgrade-application.sh
+          echo ":heavy_check_mark: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
+
         done
-        echo ":heavy_check_mark: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
       shell: bash
 
 
