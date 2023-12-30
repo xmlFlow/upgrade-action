@@ -13,6 +13,13 @@ runs:
     - name: Set envionment variables
       run: |
         echo "DBUSERNAME=${{inputs.application}}-ci" >> "$GITHUB_OUTPUT"
+        echo "TEST=${{matrix.database >> "$GITHUB_OUTPUT"
+        echo "DBTYPE=${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi' >> "$GITHUB_OUTPUT"
+        echo "DBHOST=127.0.0.1  >> "$GITHUB_OUTPUT"
+        echo "DBNAME=${{inputs.application}}-ci  >> "$GITHUB_OUTPUT"
+        echo "DBPASSWORD=${{inputs.application}}-ci  >> "$GITHUB_OUTPUT"
+        echo "APPLICATION=${{inputs.application >> "$GITHUB_OUTPUT"
+
       shell: bash
 
     - uses: actions/checkout@v4
@@ -86,13 +93,7 @@ runs:
         done
         echo ":heavy_check_mark: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
       shell: bash
-      env:
-        TEST: ${{matrix.database}}
-        DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-        DBHOST: 127.0.0.1
-        DBNAME: ${{inputs.application}}-ci
-        DBPASSWORD: ${{inputs.application}}-ci
-        APPLICATION: ${{inputs.application}}
+
 
 
 
