@@ -84,6 +84,7 @@ runs:
         for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
         do
           ${{ github.workspace }}/.github/actions/prepare-tests.sh
+          echo ":heavy_check_mark: Prepare tests for  ${DATASET_BRANCH}" >> $GITHUB_STEP_SUMMARY
           ${{ github.workspace }}/.github/actions/upgrade-application.sh
           echo ":heavy_check_mark: Upgrade from ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
 

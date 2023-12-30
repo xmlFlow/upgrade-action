@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Variables  ${DBUSERNAME}" >> $GITHUB_STEP_SUMMARY
 mkdir -p files
 mkdir -p public
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
@@ -16,5 +17,7 @@ php tools/upgrade.php upgrade
 rm -rf files
 rm -rf public
 sudo mysql -u root -e "DROP DATABASE IF EXISTS \`${DBNAME}\` ";
+echo "Variables  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
+echo "Variables  ${DBUSERNAME}" >> $GITHUB_STEP_SUMMARY
 sudo mysql -u root -e "CREATE USER \`${DBUSERNAME}\`@${DBHOST}";
 
