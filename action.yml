@@ -63,6 +63,7 @@ runs:
         cd ~/${{inputs.application}}
         ${{ github.workspace }}/.github/actions/install-composer-dependencies.sh
         npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
+        echo ":heavy_check_mark: Install dependencies" >> $GITHUB_STEP_SUMMARY
       shell: bash
 
 
@@ -70,8 +71,9 @@ runs:
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
+        echo ":heavy_check_mark: Download datasets" >> $GITHUB_STEP_SUMMARY
       shell: bash
-    
+
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
@@ -82,6 +84,7 @@ runs:
           ${{ github.workspace }}/.github/actions/prepare-tests.sh
           ${{ github.workspace }}/.github/actions/upgrade-application.sh
         done
+        echo ":heavy_check_mark: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
       shell: bash
       env:
         TEST: ${{matrix.database}}
