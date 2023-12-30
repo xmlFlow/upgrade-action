@@ -10,6 +10,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Set envionment variables
+      run: |
+        echo "DBUSERNAME=${{inputs.application}}-ci" >> "$GITHUB_OUTPUT"
+
     - uses: actions/checkout@v4
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
@@ -88,7 +92,6 @@ runs:
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
         DBNAME: ${{inputs.application}}-ci
-        DBUSERNAME: ${{inputs.application}}-ci
         DBPASSWORD: ${{inputs.application}}-ci
         APPLICATION: ${{inputs.application}}
 
