@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Variables  ${DBUSERNAME}" >> $GITHUB_STEP_SUMMARY
+echo "DBNAME  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
 mkdir -p files
 mkdir -p public
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/

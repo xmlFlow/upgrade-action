@@ -89,6 +89,11 @@ runs:
           echo ":heavy_check_mark: Upgrade from ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
 
         done
+      env:
+        TEST: ${{matrix.database}}
+        DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        DBHOST: 127.0.0.1
+        DBNAME: ${{inputs.application}}-ci
       shell: bash
 
 
