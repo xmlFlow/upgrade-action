@@ -16,8 +16,8 @@ php tools/upgrade.php check
 php tools/upgrade.php upgrade
 rm -rf files
 rm -rf public
-sudo mysql -u root -e "DROP DATABASE IF EXISTS \`${DBNAME}\` ";
+sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
+sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
 echo "DBNAME  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
 echo "DBUSERNAME  ${DBUSERNAME}" >> $GITHUB_STEP_SUMMARY
-#sudo mysql -u root -e "CREATE USER \`${DBUSERNAME}\`@${DBHOST}";
 
