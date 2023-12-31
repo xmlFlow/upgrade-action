@@ -10,16 +10,16 @@
 #
 
 set -e
-
+echo "Prepare tests " >> $GITHUB_STEP_SUMMARY
 # Set some environment variables.
-export BASEURL="http://localhost" # This is the URL to the installation directory.
-export DBHOST=localhost # Database hostname
-export DBNAME=${APPLICATION}-ci # Database name
-export DBUSERNAME=${APPLICATION}-ci # Database username
-export DBPASSWORD=${APPLICATION}-ci # Database password
-export FILESDIR=files # Files directory (relative to application directory -- do not do this in production!)
-export DATABASEDUMP=~/database.sql.gz # Path and filename where a database dump can be created/accessed
-export FILESDUMP=~/files.tar.gz # Path and filename where a database dump can be created/accessed
+#export BASEURL="http://localhost" # This is the URL to the installation directory.
+#export DBHOST=localhost # Database hostname
+#export DBNAME=${APPLICATION}-ci # Database name
+#export DBUSERNAME=${APPLICATION}-ci # Database username
+#export DBPASSWORD=${APPLICATION}-ci # Database password
+#export FILESDIR=files # Files directory (relative to application directory -- do not do this in production!)
+#export DATABASEDUMP=~/database.sql.gz # Path and filename where a database dump can be created/accessed
+#export FILESDUMP=~/files.tar.gz # Path and filename where a database dump can be created/accessed
 
 # Install required software
 sudo apt-get install -q -y libbiblio-citation-parser-perl libhtml-parser-perl
