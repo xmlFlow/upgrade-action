@@ -1,8 +1,6 @@
 #!/bin/bash
 
 echo "DBNAME  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
-mkdir -p files
-mkdir -p public
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
 cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
