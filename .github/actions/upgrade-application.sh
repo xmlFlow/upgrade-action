@@ -1,6 +1,12 @@
 #!/bin/bash
 
-echo "DBNAME  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
+echo "APPLICATION  ${APPLICATION}"
+echo "DATASET_BRANCH  ${DATASET_BRANCH}"
+echo "TEST  ${TEST}"
+echo "DBNAME  ${DBNAME}"
+echo "DBUSERNAME  ${DBUSERNAME}"
+
+
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
 cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
@@ -16,7 +22,6 @@ rm -rf files
 rm -rf public
 sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
 sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
-echo "DBNAME  ${DBNAME}" >> $GITHUB_STEP_SUMMARY
-echo "DBUSERNAME  ${DBUSERNAME}" >> $GITHUB_STEP_SUMMARY
+
 echo "upgrade-finished" >> $GITHUB_STEP_SUMMARY
 
