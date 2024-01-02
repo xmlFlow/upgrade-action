@@ -4,7 +4,7 @@ echo "APPLICATION  ${APPLICATION}"
 echo "DATASET_BRANCH  ${DATASET_BRANCH}"
 echo "TEST  ${TEST}"
 echo "DBNAME  ${DBNAME}"
-echo "DBUSERNAME  ${DBUSERNAME  }"
+echo "DBUSERNAME  ${DBUSERNAME}"
 
 
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
