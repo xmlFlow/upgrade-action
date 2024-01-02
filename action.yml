@@ -10,18 +10,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set envionment variables
-      run: |
-        echo "DBUSERNAME=${{inputs.application}}-ci" >> "$GITHUB_OUTPUT"
-        echo "TEST=${{matrix.database}} >> "$GITHUB_OUTPUT"
-        echo "DBTYPE=${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}} >> "$GITHUB_OUTPUT"
-        echo "DBHOST=127.0.0.1  >> "$GITHUB_OUTPUT"
-        echo "DBNAME=${{inputs.application}}-ci  >> "$GITHUB_OUTPUT"
-        echo "DBPASSWORD=${{inputs.application}}-ci  >> "$GITHUB_OUTPUT"
-        echo "APPLICATION=${{inputs.application}} >> "$GITHUB_OUTPUT"
-
-      shell: bash
-
     - uses: actions/checkout@v4
 
     - name: Install postgres server
@@ -94,6 +82,9 @@ runs:
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
         DBNAME: ${{inputs.application}}-ci
+        DBUSERNAME: ${{inputs.application}}-ci
+        DBPASSWORD: ${{inputs.application}}-ci
+        APPLICATION: ${{inputs.application}}
       shell: bash
 
 
