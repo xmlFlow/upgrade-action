@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 echo "APPLICATION  ${APPLICATION}"
 echo "DATASET_BRANCH  ${DATASET_BRANCH}"
 echo "TEST  ${TEST}"
