@@ -19,6 +19,11 @@ php tools/upgrade.php check
 php tools/upgrade.php upgrade
 rm -rf files
 rm -rf public
-sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
-sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
 
+if [[ "$TEST" == "pgsql" ]]; then
+
+elif [[ "$TEST" == "mysql" ]]; then
+  sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
+  sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
+
+fi
