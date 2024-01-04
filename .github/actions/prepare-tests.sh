@@ -10,7 +10,7 @@
 #
 
 set -e
-set -e
+
 
 # Set some environment variables.
 export BASEURL="http://localhost" # This is the URL to the installation directory.
