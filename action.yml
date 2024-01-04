@@ -67,16 +67,16 @@ runs:
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
       run: |
         cd ~/${{inputs.application}}
-        #DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
+        DATASET_BRANCHES=("stable-3_4_0" "stable-3_3_0" "stable-3_2_1" "stable-3_2_0")
         #DATASET_BRANCHES=("")
-        #for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
-        #do
+        for DATASET_BRANCH in "${DATASET_BRANCHES[@]}"
+        do
         ${{ github.workspace }}/.github/actions/prepare-tests.sh
         echo ":heavy_check_mark: Prepare tests for  ${DATASET_BRANCH}" >> $GITHUB_STEP_SUMMARY
         ${{ github.workspace }}/.github/actions/upgrade-application.sh
         echo ":heavy_check_mark: Upgrade from ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
 
-        #done
+        done
       env:
         TEST: ${{matrix.database}}
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
