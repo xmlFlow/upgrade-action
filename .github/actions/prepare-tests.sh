@@ -11,12 +11,6 @@
 
 set -e
 set -e
-echo "APPLICATION  ${APPLICATION}"
-echo "DATASET_BRANCH  ${DATASET_BRANCH}"
-echo "TEST  ${TEST}"
-echo "DBNAME  ${DBNAME}"
-echo "DBTYPE  ${DBTYPE}"
-echo "DBUSERNAME  ${DBUSERNAME}"
 
 # Set some environment variables.
 export BASEURL="http://localhost" # This is the URL to the installation directory.

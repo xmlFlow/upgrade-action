@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
-echo "APPLICATION  ${APPLICATION}"
-echo "DATASET_BRANCH  ${DATASET_BRANCH}"
-echo "TEST  ${TEST}"
-echo "DBNAME  ${DBNAME}"
-echo "DBTYPE  ${DBTYPE}"
-echo "DBUSERNAME  ${DBUSERNAME}"
-
+export BASEURL="http://localhost" # This is the URL to the installation directory.
+export DBHOST=localhost # Database hostname
+export DBNAME=${APPLICATION}-ci # Database name
+export DBUSERNAME=${APPLICATION}-ci # Database username
+export DBPASSWORD=${APPLICATION}-ci # Database password
+export FILESDIR=files # Files directory (relative to application directory -- do not do this in production!)
+export DATABASEDUMP=~/database.sql.gz # Path and filename where a database dump can be created/accessed
+export FILESDUMP=~/files.tar.gz
 
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
