@@ -22,5 +22,3 @@ rm -rf public
 sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
 sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
 
-echo "upgrade-finished" >> $GITHUB_STEP_SUMMARY
-
