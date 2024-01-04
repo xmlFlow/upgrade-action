@@ -21,10 +21,10 @@ rm -rf files
 rm -rf public
 
 if [[ "$TEST" == "pgsql" ]]; then
-  psql -c "DROP DATABASE  \`${DBNAME}\`; " -U postgres
-  psql -c "DROP USER \`${DBUSERNAME}\`@${DBHOST};" -U postgres
+  psql -c"DROP DATABASE  \`${DBNAME}\` " -U postgres
+  psql -c "DROP USER \`${DBUSERNAME}\`@${DBHOST}" -U postgres
 elif [[ "$TEST" == "mysql" ]]; then
-  sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ;";
-  sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST};";
+  sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
+  sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
 
 fi
