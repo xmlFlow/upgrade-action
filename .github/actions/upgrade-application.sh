@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+export DBHOST=localhost # Database hostname
+export DBNAME=${APPLICATION}-ci # Database name
+export DBUSERNAME=${APPLICATION}-ci # Database username
+export DBPASSWORD=${APPLICATION}-ci # Database password
 
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
@@ -15,8 +19,8 @@ php tools/upgrade.php check
 php tools/upgrade.php upgrade
 rm -rf files
 rm -rf public
-#sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
-#sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
+sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
+sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
 
 echo "upgrade-finished" >> $GITHUB_STEP_SUMMARY
 
