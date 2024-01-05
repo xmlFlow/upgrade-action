@@ -6,6 +6,7 @@ export DBNAME=${APPLICATION}-ci # Database name
 export DBUSERNAME=${APPLICATION}-ci # Database username
 export DBPASSWORD=${APPLICATION}-ci # Database password
 
+
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/files/* files/
 cp -r datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/public/* public/
 cp  datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/config.inc.php .
@@ -21,9 +22,9 @@ rm -rf files
 rm -rf public
 
 if [[ "$TEST" == "pgsql" ]]; then
-  echo " drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
+  echo "drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
   psql -c "DROP DATABASE \"${DBNAME}\""; -U postgres
-  echo " drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
+  echo "drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
 
   #psql -c "DROP USER \"${DBUSERNAME}\"" -U postgres
 elif [[ "$TEST" == "mysql" ]]; then
