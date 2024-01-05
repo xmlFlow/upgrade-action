@@ -22,12 +22,8 @@ rm -rf files
 rm -rf public
 
 if [[ "$TEST" == "pgsql" ]]; then
-  echo "drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
   psql -c "DROP DATABASE \"${DBNAME}\";" -U postgres
-
-  echo "drop user  \"${DBUSERNAME}\" " >> $GITHUB_STEP_SUMMARY
-  psql -c "DROP USER \"${DBUSERNAME}\" ;" -U postgres
-
+ psql -c "DROP USER \"${DBUSERNAME}\" ;" -U postgres
 elif [[ "$TEST" == "mysql" ]]; then
   sudo mysql -u root -e "DROP DATABASE  \`${DBNAME}\` ";
   sudo mysql -u root -e "DROP USER \`${DBUSERNAME}\`@${DBHOST}";
