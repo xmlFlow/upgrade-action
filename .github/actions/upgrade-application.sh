@@ -23,7 +23,7 @@ rm -rf public
 
 if [[ "$TEST" == "pgsql" ]]; then
   echo "drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
-  psql -c "DROP DATABASE \"${DBNAME}\""; -U postgres
+  psql -c "DROP DATABASE \"${DBNAME}\";" -U postgres
   echo "drop database \"${DBNAME}\" " >> $GITHUB_STEP_SUMMARY
 
   #psql -c "DROP USER \"${DBUSERNAME}\"" -U postgres
