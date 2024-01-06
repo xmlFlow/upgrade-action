@@ -59,7 +59,7 @@ runs:
 
 
     - name: Download datasets
-      if: ${{input.}}
+      if: ${{ steps.secrets.outputs.token != ''}}
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
