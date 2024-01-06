@@ -13,10 +13,7 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
-    - name: Set environment variable
-      run: |
-        echo "TEST=${{matrix.database}}" >> $GITHUB_OUTPUT
-      shell: bash
+
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
@@ -83,6 +80,7 @@ runs:
           echo ":heavy_check_mark: Upgaded ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
         done
       env:
+        TEST: ${{matrix.database}}
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
         DBNAME: ${{inputs.application}}-ci
