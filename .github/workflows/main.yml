@@ -17,5 +17,5 @@ jobs:
           application:  ${{matrix.application}}
           repository: 'pkp'
           branch: 'main'
-          secrets: |-
-            token:my-project/docker-registry-token
+          action: |-
+            validate:true
