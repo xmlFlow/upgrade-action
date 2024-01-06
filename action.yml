@@ -13,7 +13,11 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
-
+    - name: Set environment variable
+      run: |
+        TEST: ${{matrix.database}}
+        echo "::set-output name=value::${TEST:-""}"
+      shell: bash
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
@@ -61,14 +65,14 @@ runs:
 
 
     - name: Download datasets
-      if: ${{ steps.action.outputs.upgrade != ''}}
+      #if: ${{ steps.action.outputs.upgrade != ''}}
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
       shell: bash
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
-      if: ${{ steps.action.outputs.upgrade != ''}}
+      #if: ${{ steps.action.outputs.upgrade != ''}}
       run: |
         cd ~/${{inputs.application}}
         
@@ -80,7 +84,6 @@ runs:
           echo ":heavy_check_mark: Upgaded ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
         done
       env:
-        TEST: ${{matrix.database}}
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
         DBNAME: ${{inputs.application}}-ci
