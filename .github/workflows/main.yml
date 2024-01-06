@@ -17,4 +17,5 @@ jobs:
           application:  ${{matrix.application}}
           repository: 'pkp'
           branch: 'main'
-          steps: ['validate']
+          steps: |
+            validate: true
