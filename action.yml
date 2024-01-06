@@ -61,14 +61,14 @@ runs:
 
 
     - name: Download datasets
-      if: ${{ steps.action.outputs.validate != ''}}
+      if: ${{ steps.action.outputs.upgrade != ''}}
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
       shell: bash
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
-      if: ${{ steps.action.outputs.validate != ''}}
+      if: ${{ steps.action.outputs.upgrade != ''}}
       run: |
         cd ~/${{inputs.application}}
         
