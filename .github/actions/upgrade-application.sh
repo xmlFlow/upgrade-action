@@ -18,8 +18,7 @@ fi
 ./datasets/tools/dbclient.sh < datasets/${APPLICATION}/${DATASET_BRANCH}/${TEST}/database.sql
 php tools/upgrade.php check
 php tools/upgrade.php upgrade
-rm -rf files
-rm -rf public
+
 
 if [[ "$TEST" == "pgsql" ]]; then
   psql -c "DROP DATABASE \"${DBNAME}\";" -U postgres
