@@ -17,5 +17,4 @@ jobs:
           application:  ${{matrix.application}}
           repository: 'pkp'
           branch: 'main'
-          action: |-
-            upgrade:true
+          upgrade: true

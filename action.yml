@@ -6,14 +6,22 @@ inputs:
     required: true
   branch:
      required: true
-  action:
+  test:
     required: false
+  validate:
+    required: false
+  upgrade:
+    required: false
+
 
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
 
+    - name: Print
+      run: env | sort
+      shell: bash
     - name: Install postgres server
       if: ${{matrix.database == 'pgsql'}}
       run: |
@@ -51,7 +59,16 @@ runs:
         git submodule update --init --recursive
       shell: bash
 
-  
+#    - name : Update lib-kp
+#      if: $(basename ${{ github.repository }}) ==pkp-libs"
+#      run:  |
+#        cd ~/${{inputs.application}}/lib/pkp
+#        git remote add feature https://github.com/${{ github.repository}}
+#        git fetch feature ${{github.ref_name}}
+#        git checkout feature/${{github.ref_name}}
+#      shell: bash
+#
+#
     - name: Install  dependencies
       run: |
         cd ~/${{inputs.application}}
@@ -61,14 +78,14 @@ runs:
 
 
     - name: Download datasets
-      #if: ${{ steps.action.outputs.upgrade != ''}}
+      if: ${{ inputs.upgrade == 'true'}}
       run: |
         cd ~/${{inputs.application}}
         git clone https://github.com/pkp/datasets --depth 1
       shell: bash
 
     - name: Upgrade from ${{matrix.dataset-branch}}  for  ${{matrix.database}}
-      #if: ${{ steps.action.outputs.upgrade != ''}}
+      if: ${{ inputs.upgrade == 'true'}}
       run: |
         cd ~/${{inputs.application}}
         
@@ -77,17 +94,15 @@ runs:
         do
           ${{ github.workspace }}/.github/actions/prepare-tests.sh
           ${{ github.workspace }}/.github/actions/upgrade-application.sh
-          echo ":heavy_check_mark: Upgaded ${DATASET_BRANCH}  for  ${{matrix.database}}" >> $GITHUB_STEP_SUMMARY
+          echo ":heavy_check_mark: ${DATASET_BRANCH} update" >> $GITHUB_STEP_SUMMARY
         done
       env:
         TEST: ${{matrix.database}}
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
-        DBNAME: ${{inputs.application}}-ci
-        DBUSERNAME: ${{inputs.application}}-ci
-        DBPASSWORD: ${{inputs.application}}-ci
+        DBNAME: ${{inputs.application}}
+        DBUSERNAME: ${{inputs.application}}
+        DBPASSWORD: ${{inputs.application}}
         APPLICATION: ${{inputs.application}}
         DATASET_BRANCH: stable-3_4_0
-
-
       shell: bash
