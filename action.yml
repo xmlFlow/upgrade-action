@@ -73,7 +73,6 @@ runs:
       run: |
         cd ~/${{inputs.application}}
         ${{ github.workspace }}/.github/actions/install-composer-dependencies.sh
-        npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
       shell: bash
 
 
