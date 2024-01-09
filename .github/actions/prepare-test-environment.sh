@@ -12,7 +12,7 @@
 set -e
 
 
-# Set some environment variables.
+# Set  environment variables.
 export BASEURL="http://localhost" # This is the URL to the installation directory.
 export DBHOST=localhost # Database hostname
 export DBNAME=${APPLICATION}-ci # Database name
