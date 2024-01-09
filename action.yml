@@ -100,9 +100,9 @@ runs:
         TEST: ${{matrix.database}}
         DBTYPE: ${{matrix.database == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
         DBHOST: 127.0.0.1
-        DBNAME: ${{inputs.application}}
-        DBUSERNAME: ${{inputs.application}}
-        DBPASSWORD: ${{inputs.application}}
+        DBNAME: ${{inputs.application}}-ci
+        DBUSERNAME: ${{inputs.application}}-ci
+        DBPASSWORD: ${{inputs.application}}-ci
         APPLICATION: ${{inputs.application}}
         DATASET_BRANCH: stable-3_4_0
       shell: bash
